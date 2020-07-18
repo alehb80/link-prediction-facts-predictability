@@ -61,12 +61,12 @@ for idx in range(0, 4):
 
 				#Confronto tra numeri
 				if value["dc1"][3].replace(".", "").isdigit() and value["dc2"][3].replace(".", "").isdigit():
-					diff_h = float(value["dc1"][3]) -  float(value["dc2"][3])
+					diff_h = int(float(value["dc1"][3])) -  int(float(value["dc2"][3]))
 
 				if value["dc1"][4].replace(".", "").isdigit() and value["dc2"][4].replace(".", "").isdigit():
-					diff_t = float(value["dc1"][4]) -  float(value["dc2"][4])
+					diff_t = int(float(value["dc1"][4])) -  int(float(value["dc2"][4]))
 
-				if diff_h < 0 or diff_t < 0:
+				if (diff_h < 0  or diff_t < 0) and int(float(value["dc1"][3])) == 1 and int(float(value["dc1"][4])) == 1:
 					array_result_diff.append( {"head" : value["dc1"][0], "relation" : value["dc1"][1], "tail" : value["dc1"][2], "head_rank_d" : diff_h, "tail_rank_d" : diff_t , "sumdiff" : diff_h + diff_t})
 
 		sortedresultSum = sorted(array_result_diff, key=lambda val: float(val['sumdiff']))
@@ -76,18 +76,31 @@ for idx in range(0, 4):
 		with open(f"output/{SOURCES_DATASET[x]}-{SOURCES_DATASET[x+1]}/{MODELS_NAME[idx]}/{MODELS_NAME[idx].lower()}_filtered_ranks.csv", "w") as outputFile:
 			index = 0
 			for fact in sortedresultSum:
-				if index < 20:
-					outputFile.write(f"{fact['head']};{fact['relation']};{fact['tail']};{fact['head_rank_d']};{fact['tail_rank_d']};{fact['sumdiff']}\n")
-					index += 1
+				if index < 3:
+					if not "." in fact['relation']:
+						outputFile.write(f"{fact['head']};{fact['relation']};{fact['tail']};{fact['head_rank_d']};{fact['tail_rank_d']};{fact['sumdiff']}\n")
+						index += 1
 				else:
 					break
 
 		with open(f"output/{SOURCES_DATASET[x]}-{SOURCES_DATASET[x+1]}/{MODELS_NAME[idx]}/{MODELS_NAME[idx].lower()}_filtered_ranksh.csv", "w") as outputFile:
+			index = 0
 			for fact in sortedresultHead:
-				outputFile.write(f"{fact['head']};{fact['relation']};{fact['tail']};{fact['head_rank_d']};{fact['tail_rank_d']};{fact['sumdiff']}\n")
+				if index < 3:
+					if not "." in fact['relation']:
+						outputFile.write(f"{fact['head']};{fact['relation']};{fact['tail']};{fact['head_rank_d']};{fact['tail_rank_d']};{fact['sumdiff']}\n")
+						index += 1
+				else:
+					break
 
 		with open(f"output/{SOURCES_DATASET[x]}-{SOURCES_DATASET[x+1]}/{MODELS_NAME[idx]}/{MODELS_NAME[idx].lower()}_filtered_rankst.csv", "w") as outputFile:
+			index = 0
 			for fact in sortedresultTail:
-				outputFile.write(f"{fact['head']};{fact['relation']};{fact['tail']};{fact['head_rank_d']};{fact['tail_rank_d']};{fact['sumdiff']}\n")
+				if index < 3:
+					if not "." in fact['relation']:
+						outputFile.write(f"{fact['head']};{fact['relation']};{fact['tail']};{fact['head_rank_d']};{fact['tail_rank_d']};{fact['sumdiff']}\n")
+						index += 1
+				else:
+					break
 				
 
