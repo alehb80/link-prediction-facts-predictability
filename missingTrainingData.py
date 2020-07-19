@@ -28,13 +28,15 @@ for idx in range(0, 4):
 
 		for eachfactLine in training1:
 			if len(eachfactLine) > 2:
-				tokenString = eachfactLine.split("\t")
+				tokenString = eachfactLine.replace("\n", "")
+				tokenString = tokenString.split("\t")
 				if tokenString[0] in setEntities or tokenString[2] in setEntities:
 					setSrc1.add(f"{tokenString[0]};{tokenString[1]};{tokenString[2]}")
 
 		for eachfactLine in training2:
 			if len(eachfactLine) > 2:
-				tokenString = eachfactLine.split("\t")
+				tokenString = eachfactLine.replace("\n", "")
+				tokenString = tokenString.split("\t")
 				if tokenString[0] in setEntities or tokenString[2] in setEntities:
 					setSrc2.add(f"{tokenString[0]};{tokenString[1]};{tokenString[2]}")
 
@@ -42,4 +44,4 @@ for idx in range(0, 4):
 
 		with open(f"output/{SOURCES_DATASET[x]}-{SOURCES_DATASET[x+1]}/{MODELS_NAME[idx]}/{MODELS_NAME[idx].lower()}_missingFact.csv", "w") as outputFile:
 			for removedFact in sorted(removedTrainFact):
-				outputFile.write(f"{removedFact}")
+				outputFile.write(f"{removedFact}\n")
