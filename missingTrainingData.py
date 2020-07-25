@@ -26,6 +26,7 @@ for idx in range(0, 4):
 		with open(f"sources/{SOURCES_DATASET[x+1]}/train.txt", "r") as train2File:
 			training2 = train2File.readlines()
 
+		###Filtro i fatti di training per ogni dataset rispetto alle sole entita' coninvolte nel peggioramento
 		for eachfactLine in training1:
 			if len(eachfactLine) > 2:
 				tokenString = eachfactLine.replace("\n", "")
